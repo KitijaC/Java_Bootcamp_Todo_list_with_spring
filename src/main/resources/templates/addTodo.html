@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List 1.0</title>
+</head>
+<body>
+<header>
+    <h1>Todo List Application</h1>
+    <nav>
+        <a href="/add-todo">Add Todo</a>
+        <a href="/">View Todo</a>
+    </nav>
+</header>
+<main>
+    <section>
+        <h3>Add New Item</h3>
+        <form action="/add-todo" method="post">
+            <div>
+                <label>Description</label>
+                <input name="description" type="text">
+            </div>
+            <div>
+                <label>Status</label>
+                <select name="status">
+                    <option value="PENDING">Pending</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                </select>
+            </div>
+            <div>
+                <label>Priority</label>
+                <select name="priority">
+                    <option value="IMPORTANT">Important</option>
+                    <option value="URGENT">Urgent</option>
+                    <option value="LESS_IMPORTANT">Less Important</option>
+                </select>
+            </div>
+            <div>
+                <button>Add Item</button>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

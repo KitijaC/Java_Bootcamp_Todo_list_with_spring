@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List 1.0</title>
+</head>
+<body>
+<header>
+    <h1>Todo List Application</h1>
+    <nav>
+        <a href="/add-todo">Add Todo</a>
+        <a href="/">View Todo</a>
+    </nav>
+</header>
+<main>
+    <section>
+        <h3>Todo List</h3>
+        <span th:if="${message == 'TODO_CREATED_SUCCESS'}">
+        Todo item created successfully!
+        </span>
+        <span th:if="${message == 'TODO_CREATION_FAILED'}" th:text="${error}"></span>
+    </section>
+    <section>
+        <span th:if="${!todoList.isEmpty()}" th:text="${'Total items:' + todoList.size()}"></span>
+        <span th:if="${todoList.isEmpty()}">No items to show</span>
+    </section>
+    <section>
+        <ol th:if="${!todoList.isEmpty()}">
+            <li th:each="todoItem: ${todoList}">
+                <span th:text="${todoItem.getDescription() + ' - '}"></span>
+                <span th:text="${todoItem.getPriority() + ' - '}"></span>
+                <span th:text="${todoItem.getStatus() }"></span>
+            </li>
+        </ol>
+    </section>
+</main>
+</body>
+</html>
