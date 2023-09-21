@@ -3,6 +3,8 @@ package com.todolistspring;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
 @Service // spring has control over #IOC
 public class TodoService {
     private final ArrayList<Todo> todoList = new ArrayList<>();
@@ -27,5 +29,17 @@ public class TodoService {
 
     public ArrayList<Todo> getAllTodoItems() {
         return this.todoList;
+    }
+
+    public void deleteTodoItem(UUID id) throws Exception {
+        if (!this.todoList.removeIf((todoItem) -> todoItem.getId().equals(id)))
+            throw new Exception("Item with specified id not found");
+    }
+
+    public Todo findTodoById(UUID id) throws Exception {
+        for (Todo todo: this.todoList) {
+            if (todo.getId().equals(id))return todo;
+        }
+        throw new Exception("Todo item not found");
     }
 }

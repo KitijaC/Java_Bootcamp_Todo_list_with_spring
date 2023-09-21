@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.UUID;
 
 @Controller // a bean -> iOC
 public class TodoController {
@@ -42,6 +45,30 @@ public class TodoController {
             return "redirect:/?message=TODO_CREATED_SUCCESS";
         } catch (Exception exception) {
             return "redirect:/?message=TODO_CREATION_FAILED&error=" + exception.getMessage();
+        }
+
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteTodo(@PathVariable() UUID id) {
+        try {
+            this.todoService.deleteTodoItem(id);
+            return "redirect:/?message=TODO_DELETED_SUCCESSFULLY";
+        } catch (Exception exception) {
+            return "redirect:/?message=TODO_DELETE_FAILED&error=" + exception.getMessage();
+        }
+
+    }
+
+    @GetMapping("/update-status/{id}/{status}")
+    public String updateTodo(@PathVariable() UUID id, @PathVariable String status) {
+        try {
+            Todo foundTodo = this.todoService.findTodoById(id);
+            foundTodo.setStatus(TodoStatus.valueOf(status));
+            this.todoService.updateTodo(foundTodo);
+            return "redirect:/?message=TODO_UPDATED_SUCCESSFULLY";
+        } catch (Exception exception) {
+            return "redirect:/?message=TODO_UPDATE_FAILED&error=" + exception.getMessage();
         }
 
     }

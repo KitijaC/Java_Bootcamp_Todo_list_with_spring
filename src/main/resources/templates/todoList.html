@@ -3,33 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo List 1.0</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-<header>
-    <h1>Todo List Application</h1>
-    <nav>
-        <a href="/add-todo">Add Todo</a>
-        <a href="/">View Todo</a>
-    </nav>
-</header>
-<main>
-    <section>
+<header th:replace="fragments/header.html::topSection"></header>
+<main class="container">
+    <section class="container">
         <h3>Todo List</h3>
         <span th:if="${message == 'TODO_CREATED_SUCCESS'}">
         Todo item created successfully!
         </span>
         <span th:if="${message == 'TODO_CREATION_FAILED'}" th:text="${error}"></span>
     </section>
-    <section>
-        <span th:if="${!todoList.isEmpty()}" th:text="${'Total items:' + todoList.size()}"></span>
+    <section class="container">
+        <span th:if="${!todoList.isEmpty()}" th:text="${'Total items: ' + todoList.size()}"></span>
         <span th:if="${todoList.isEmpty()}">No items to show</span>
     </section>
-    <section>
-        <ol th:if="${!todoList.isEmpty()}">
-            <li th:each="todoItem: ${todoList}">
+    <section class="container">
+        <ol th:if="${!todoList.isEmpty()}" class="list-group list-group-flush">
+            <li th:each="todoItem: ${todoList}" th:class="${todoItem.getPriority().toString() == 'URGENT' ? 'list-group-item-danger' :
+            (todoItem.getPriority().toString() == 'LESS_IMPORTANT' ? 'list-group-item-primary' : 'list-group-item-warning')}
+            + ' list-group-item'">
                 <span th:text="${todoItem.getDescription() + ' - '}"></span>
-                <span th:text="${todoItem.getPriority() + ' - '}"></span>
                 <span th:text="${todoItem.getStatus() }"></span>
+                <span>
+                    <a th:href="${'/update-status/' + todoItem.getId() + '/IN_PROGRESS'}" th:if="${todoItem.getStatus().toString() == 'PENDING'}" class="btn btn-success">&#9658</a>
+                    <a th:href="${'/edit/' + todoItem.getId()}"  th:if="${todoItem.getStatus().toString() != 'COMPLETED'}" class="btn btn-primary">&#9998</a>
+                    <a th:href="${'/delete/' + todoItem.getId()}"  class="btn btn-danger">&#10008</a>
+                    <a th:href="${'/update-status/' + todoItem.getId() + '/COMPLETED'}"  th:if="${todoItem.getStatus().toString() == 'IN_PROGRESS'}" class="btn btn-success text-white">&#10004</a>
+                </span>
             </li>
         </ol>
     </section>
