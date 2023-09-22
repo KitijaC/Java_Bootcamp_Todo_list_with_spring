@@ -72,4 +72,27 @@ public class TodoController {
         }
 
     }
+
+    @GetMapping("/edit/{id}")
+    public String showEditTodoPage(@PathVariable UUID id, Model model) {
+        try {
+            Todo todo = this.todoService.findTodoById(id);
+            model.addAttribute("todoItem", todo);
+            return "editTodo";
+        } catch (Exception exception) {
+            return "redirect:/?message=TODO_EDIT_FAILED&error=" + exception.getMessage();
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editTodo(@PathVariable UUID id, Todo todo) {
+        try {
+            this.todoService.findTodoById(id); // this is just to check that it exists
+            todo.setId(id);
+            this.todoService.updateTodo(todo);
+            return "redirect:/?message=TODO_EDITED_SUCCESSFULLY";
+        } catch (Exception exception) {
+            return "redirect:/?message=TODO_EDIT_FAILED&error=" + exception.getMessage();
+        }
+    }
 }

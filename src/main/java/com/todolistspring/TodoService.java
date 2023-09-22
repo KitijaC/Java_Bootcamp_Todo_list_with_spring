@@ -16,15 +16,15 @@ public class TodoService {
     }
 
     public Todo updateTodo(Todo todo) throws Exception {
-        this.todoList.forEach((currentTodo) -> {
-            if (currentTodo.equals(todo)) {
+        for (Todo currentTodo: this.todoList) {
+            if (currentTodo.getId().equals(todo.getId())) {
                 currentTodo.setDescription(todo.getDescription());
                 currentTodo.setStatus(todo.getStatus());
                 currentTodo.setPriority(todo.getPriority());
+                return currentTodo;
             }
-        });
-
-        return todo;
+        }
+        throw new Exception("Todo item not found!");
     }
 
     public ArrayList<Todo> getAllTodoItems() {

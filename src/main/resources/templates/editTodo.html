@@ -7,17 +7,19 @@
 </head>
 <body>
 <header th:replace="fragments/header.html::topSection"></header>
-<main>
+<main class="container">
     <section>
-        <h3>Add New Item</h3>
-        <form action="/add-todo" method="post">
+        <h3>Edit Todo</h3>
+        <form th:action="${'/edit/' + todoItem.getId()}" method="post">
             <div class="input-group mt-2">
                 <label class="input-group-text">Description</label>
-                <input class="form-control" name="description" type="text">
+                <input class="form-control" name="description" type="text" th:value="${todoItem.getDescription()}">
             </div>
             <div class="input-group mt-2">
                 <label class="input-group-text">Status</label>
-                <select class="form-control" name="status">
+                <select class="form-control" name="status" th:value="${todoItem.getStatus().toString()}">
+                    <option th:value="${todoItem.getStatus().toString()}"
+                            th:text="${todoItem.getStatus().toString()}" selected></option>
                     <option value="PENDING">Pending</option>
                     <option value="IN_PROGRESS">In Progress</option>
                     <option value="COMPLETED">Completed</option>
@@ -25,14 +27,14 @@
             </div>
             <div class="input-group mt-2">
                 <label class="input-group-text">Priority</label>
-                <select class="form-control" name="priority">
+                <select class="form-control" name="priority" th:value="${todoItem.getPriority().toString()}">
                     <option value="IMPORTANT">Important</option>
                     <option value="URGENT">Urgent</option>
                     <option value="LESS_IMPORTANT">Less Important</option>
                 </select>
             </div>
             <div class="input-group mt-2">
-                <button class="btn btn-primary">Add Item</button>
+                <button class="btn btn-primary">Save</button>
             </div>
         </form>
     </section>
